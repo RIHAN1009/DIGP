@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rihan Iqbal | Portfolio</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0A1929;
+      --bg-secondary: #0D2137;
+      --accent-cyan: #00FFF5;
+      --accent-purple: #9D4EFF;
+      --text-primary: #E8F4F8;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    .portfolio-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    .font-orbitron { font-family: 'Orbitron', monospace; }
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    
+    /* Particle Canvas */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    /* Glow Effects */
+    .glow-cyan {
+      text-shadow: 0 0 10px var(--accent-cyan), 0 0 20px var(--accent-cyan), 0 0 40px var(--accent-cyan);
+    }
+    
+    .glow-purple {
+      text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple);
+    }
+    
+    .glow-border-cyan {
+      box-shadow: 0 0 15px rgba(0, 255, 245, 0.3), inset 0 0 15px rgba(0, 255, 245, 0.1);
+    }
+    
+    .glow-border-purple {
+      box-shadow: 0 0 15px rgba(157, 78, 255, 0.3), inset 0 0 15px rgba(157, 78, 255, 0.1);
+    }
+    
+    /* Animated Underline */
+    .glowing-underline {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .glowing-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 2px;
+      animation: underlineGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes underlineGlow {
+      0%, 100% { box-shadow: 0 0 10px var(--accent-cyan); }
+      50% { box-shadow: 0 0 20px var(--accent-purple); }
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #00B8B0);
+      color: var(--bg-primary);
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(0, 255, 245, 0.4);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-purple);
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 8px;
+      border: 2px solid var(--accent-purple);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--accent-purple);
+      color: var(--bg-primary);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(157, 78, 255, 0.4);
+    }
+    
+    /* Social Icons */
+    .social-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(0, 255, 245, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0, 255, 245, 0.4);
+    }
+    
+    .social-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-cyan);
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover svg {
+      fill: #fff;
+    }
+    
+    /* Skill Cards */
+    .skill-card {
+      background: linear-gradient(145deg, var(--bg-secondary), rgba(13, 33, 55, 0.8));
+      border: 1px solid rgba(0, 255, 245, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.4s ease;
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 255, 245, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 255, 245, 0.1);
+    }
+    
+    /* Progress Bars */
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      transform-origin: left;
+      animation: progressGrow 1.5s ease-out forwards;
+      position: relative;
+    }
+    
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 20px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+      animation: progressShine 2s ease-in-out infinite;
+    }
+    
+    @keyframes progressGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    
+    @keyframes progressShine {
+      0%, 100% { opacity: 0; transform: translateX(-20px); }
+      50% { opacity: 1; transform: translateX(0); }
+    }
+    
+    /* Project Cards */
+    .project-card {
+      background: linear-gradient(145deg, var(--bg-secondary), rgba(13, 33, 55, 0.9));
+      border: 1px solid rgba(157, 78, 255, 0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: var(--accent-purple);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(157, 78, 255, 0.2);
+    }
+    
+    .project-image {
+      height: 140px;
+      background: linear-gradient(135deg, rgba(0, 255, 245, 0.1), rgba(157, 78, 255, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Carousel (scroll-snap) */
+    .carousel { width: 100%; height: 100%; position: relative; }
+    .carousel-track { display: flex; gap: 16px; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding: 8px; }
+    .carousel-slide { min-width: 80%; max-width: 88%; height: 100%; flex: 0 0 auto; position: relative; scroll-snap-align: center; box-sizing: border-box; padding: 0 8px; }
+    .carousel-slide img { width: 100%; height: 100%; object-fit: contain; object-position: top center; display: block; background: rgba(255,255,255,0.02); }
+    .carousel-button { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:5; backdrop-filter: blur(4px); }
+    .carousel-button.left { left: 8px; }
+    .carousel-button.right { right: 8px; }
+    .carousel-dots { position: absolute; left: 50%; transform: translateX(-50%); bottom: 8px; display:flex; gap:8px; z-index:5 }
+    .carousel-dot { width:8px; height:8px; border-radius:50%; background: rgba(255,255,255,0.5); cursor:pointer }
+    .carousel-dot.active { background: var(--accent-cyan); box-shadow: 0 0 8px rgba(0,255,245,0.4) }
+    .project-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .project-card:hover .project-image::before {
+      left: 100%;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 41, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, var(--bg-secondary), var(--bg-primary));
+      border: 1px solid rgba(0, 255, 245, 0.3);
+      border-radius: 24px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 85%;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    .modal-hero img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      object-position: top center;
+      border-radius: 12px;
+      display: block;
+      background: rgba(255,255,255,0.02);
+    }
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 245, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    .modal-close:hover {
+      background: var(--accent-cyan);
+      transform: rotate(90deg);
+    }
+    
+    /* Animations */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    
+    /* Floating Animation */
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    /* Tag Pills */
+    .tag-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(0, 255, 245, 0.1);
+      border: 1px solid rgba(0, 255, 245, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--accent-cyan);
+      margin: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .tag-pill:hover {
+      background: rgba(0, 255, 245, 0.2);
+      transform: scale(1.05);
+    }
+    
+    .tag-pill.purple {
+      background: rgba(157, 78, 255, 0.1);
+      border-color: rgba(157, 78, 255, 0.3);
+      color: var(--accent-purple);
+    }
+    
+    /* Section Divider */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 245, 0.3), rgba(157, 78, 255, 0.3), transparent);
+      margin: 60px 0;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--accent-cyan), var(--accent-purple));
+      border-radius: 4px;
+    }
+    
+    /* Skill Icon Container */
+    .skill-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 255, 245, 0.1), rgba(157, 78, 255, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-item:hover .skill-icon {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 20px rgba(0, 255, 245, 0.3);
+    }
+    
+    /* Contact Form */
+    .form-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 245, 0.2);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0, 255, 245, 0.2);
+    }
+    
+    .form-input::placeholder {
+      color: rgba(232, 244, 248, 0.4);
+    }
+  </style>
+</head>
+<body class="h-full">
+  <canvas id="particles-canvas"></canvas>
+  
+  <div class="portfolio-wrapper" id="portfolio">
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20" id="hero">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="fade-in-up delay-1">
+          <p class="text-sm uppercase tracking-[0.3em] text-cyan-400 mb-4 font-space">Welcome to my portfolio</p>
+        </div>
+        
+        <h1 class="font-orbitron text-5xl md:text-7xl font-bold mb-6 fade-in-up delay-2 glow-cyan" id="hero-name">
+          RIHAN IQBAL
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-300 mb-4 fade-in-up delay-3 font-space" id="hero-tagline">
+          IT Student | Aspiring Software Engineer | AI & UX Enthusiast
+        </p>
+        
+        <p class="text-base text-gray-400 max-w-2xl mx-auto mb-10 fade-in-up delay-4 leading-relaxed" id="hero-bio">
+          Building intuitive, AI-driven web applications that solve real user problems. Passionate about clean code, user-centric design, and emerging technologies.
+        </p>
+        
+        <div class="flex flex-wrap gap-4 justify-center fade-in-up delay-5">
+          <button class="btn-primary font-space" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
+            View My Work
+          </button>
+          <button class="btn-secondary font-space" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+            Contact Me
+          </button>
+        </div>
+        
+        <!-- Social Links -->
+        <div class="flex gap-4 justify-center mt-12 fade-in-up delay-6">
+          <a href="https://linkedin.com/in/rihan-iqbal-7699893aa" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="https://gitlab.com/yourusername" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitLab">
+            <svg viewBox="0 0 24 24"><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/></svg>
+          </a>
+          <a href="mailto:252258W@mymail.nyp.edu.sg" class="social-icon" title="Email">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </a>
+          <a href="#" class="social-icon" title="Portfolio">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 floating">
+        <div class="w-6 h-10 border-2 border-cyan-400 rounded-full flex justify-center pt-2">
+          <div class="w-1.5 h-3 bg-cyan-400 rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Skills Section -->
+    <section class="px-6 py-20" id="skills">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4">
+            <span class="glowing-underline">My Tech Stack</span>
+          </h2>
+          <p class="text-gray-400 mt-8">Technologies I work with to bring ideas to life</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Languages -->
+          <div class="skill-card">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                <span class="text-xl">💻</span>
+              </div>
+              <h3 class="font-orbitron text-lg font-semibold text-cyan-400">Languages</h3>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">Python</span>
+                  <span class="text-xs text-cyan-400">Proficient</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 80%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">JavaScript (ES6+)</span>
+                  <span class="text-xs text-cyan-400">Expert</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 95%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">SQL</span>
+                  <span class="text-xs text-cyan-400">Proficient</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">HTML5/CSS3</span>
+                  <span class="text-xs text-cyan-400">Expert</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 95%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Frameworks -->
+          <div class="skill-card">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                <span class="text-xl">⚛️</span>
+              </div>
+              <h3 class="font-orbitron text-lg font-semibold text-purple-400">Frameworks</h3>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">React</span>
+                  <span class="text-xs text-purple-400">Advanced</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">Flask</span>
+                  <span class="text-xs text-purple-400">Proficient</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">Node.js</span>
+                  <span class="text-xs text-purple-400">Basic</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 50%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Data & Cloud -->
+          <div class="skill-card">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                <span class="text-xl">☁️</span>
+              </div>
+              <h3 class="font-orbitron text-lg font-semibold text-cyan-400">Data & Cloud</h3>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">Power BI</span>
+                  <span class="text-xs text-cyan-400">Advanced</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium">AWS Services</span>
+                  <span class="text-xs text-cyan-400">Proficient</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 70%"></div>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="tag-pill text-xs">Lambda</span>
+                <span class="tag-pill text-xs">API Gateway</span>
+                <span class="tag-pill text-xs">DynamoDB</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Developer Tools -->
+          <div class="skill-card">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                <span class="text-xl">🛠️</span>
+              </div>
+              <h3 class="font-orbitron text-lg font-semibold text-purple-400">Dev Tools</h3>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3">
+              <div class="skill-item text-center p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                <div class="skill-icon mx-auto mb-2 w-10 h-10">🐙</div>
+                <span class="text-xs">Git/GitHub</span>
+              </div>
+              <div class="skill-item text-center p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                <div class="skill-icon mx-auto mb-2 w-10 h-10">🎨</div>
+                <span class="text-xs">Figma</span>
+              </div>
+              <div class="skill-item text-center p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                <div class="skill-icon mx-auto mb-2 w-10 h-10">📬</div>
+                <span class="text-xs">Postman</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Projects Section -->
+    <section class="px-6 py-20" id="projects">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4">
+            <span class="glowing-underline" style="color: #9D4EFF;">Featured Projects</span>
+          </h2>
+          <p class="text-gray-400 mt-8">Click on any project to learn more</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Project 1 -->
+          <div class="project-card" onclick="openModal('project1')">
+            <div class="project-image">
+              <div class="carousel" data-carousel="project1-thumb">
+                <div class="carousel-track">
+                    <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20150412.png" alt="AI search 1"></div>
+                    <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20174918.png" alt="AI search 2"></div>
+                    <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20174943.png" alt="AI search 3"></div>
+                    <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20221550.png" alt="AI search 4"></div>
+                  </div>
+                <button class="carousel-button left" aria-label="Previous">‹</button>
+                <button class="carousel-button right" aria-label="Next">›</button>
+                <div class="carousel-dots"></div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-orbitron text-xl font-semibold mb-2 text-white">AI-Assisted Search & Recommendation</h3>
+              <p class="text-gray-400 text-sm mb-4">Intelligent product discovery with natural language processing</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="tag-pill">React</span>
+                <span class="tSag-pill purple">Flask</span>
+                <span class="tag-pill">NLP</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project 2 -->
+          <div class="project-card" onclick="openModal('project2')">
+            <div class="project-image">
+              <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80" alt="Analytics dashboard screenshot">
+            </div>
+            <div class="p-6">
+              <h3 class="font-orbitron text-xl font-semibold mb-2 text-white">Analytics Dashboard</h3>
+              <p class="text-gray-400 text-sm mb-4">Real-time data visualization with interactive charts</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="tag-pill">Power BI</span>
+                <span class="tag-pill purple">Python</span>
+                <span class="tag-pill">SQL</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project 3 -->
+          <div class="project-card" onclick="openModal('project3')">
+            <div class="project-image">
+              <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80" alt="Basketball team photo">
+            </div>
+            <div class="p-6">
+              <h3 class="font-orbitron text-xl font-semibold mb-2 text-white">Basketball CCA Website</h3>
+              <p class="text-gray-400 text-sm mb-4">Digital platform for 100+ members with registration and events</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="tag-pill">React</span>
+                <span class="tag-pill purple">UX Design</span>
+                <span class="tag-pill">SMTP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <!-- Contact Section -->
+    <section class="px-6 py-20" id="contact">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="font-orbitron text-3xl md:text-4xl font-bold mb-4">
+            <span class="glowing-underline">Get In Touch</span>
+          </h2>
+          <p class="text-gray-400 mt-8">Have a project in mind? Let's work together!</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 class="font-orbitron text-xl font-semibold mb-6 text-cyan-400">Contact Information</h3>
+            
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                  <span class="text-xl">📧</span>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Email</p>
+                  <a href="mailto:252258W@mymail.nyp.edu.sg" class="text-cyan-400 hover:text-cyan-300 transition-colors" id="contact-email">252258W@mymail.nyp.edu.sg</a>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                  <span class="text-xl">💼</span>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">LinkedIn</p>
+                  <a href="https://linkedin.com/in/rihan-iqbal-7699893aa" target="_blank" rel="noopener noreferrer" class="text-purple-400 hover:text-purple-300 transition-colors" id="contact-linkedin">linkedin.com/in/rihan-iqbal-7699893aa</a>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
+                  <span class="text-xl">📍</span>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Location</p>
+                  <p class="text-gray-300">Singapore</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-xl font-semibold mb-6 text-purple-400">Send a Message</h3>
+            
+            <form class="space-y-4" onsubmit="handleFormSubmit(event)">
+              <div>
+                <label for="name" class="block text-sm text-gray-400 mb-2">Your Name</label>
+                <input type="text" id="name" class="form-input" placeholder="John Doe" required>
+              </div>
+              
+              <div>
+                <label for="email" class="block text-sm text-gray-400 mb-2">Your Email</label>
+                <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+              </div>
+              
+              <div>
+                <label for="message" class="block text-sm text-gray-400 mb-2">Message</label>
+                <textarea id="message" rows="4" class="form-input resize-none" placeholder="Tell me about your project..." required></textarea>
+              </div>
+              
+              <button type="submit" class="btn-primary w-full font-space">
+                Send Message ✨
+              </button>
+            </form>
+            
+            <div id="form-success" class="hidden mt-4 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-center">
+              Thanks for your message! I'll get back to you soon. 🚀
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="px-6 py-8 border-t border-white/10">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-gray-500 text-sm font-space">
+          © 2025 Rihan Iqbal. Crafted with 💜 and lots of ☕
+        </p>
+        
+        <div class="flex gap-4">
+          <a href="https://linkedin.com/in/rihan-iqbal-7699893aa" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-cyan-400 transition-colors text-sm">LinkedIn</a>
+          <a href="https://gitlab.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-purple-400 transition-colors text-sm">GitLab</a>
+          <a href="mailto:252258W@mymail.nyp.edu.sg" class="text-gray-500 hover:text-cyan-400 transition-colors text-sm">Email</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Project Modals -->
+  <div class="modal-overlay" id="project1-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('project1')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <div class="p-8">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="text-5xl">🔍</div>
+          <div>
+            <h2 class="font-orbitron text-2xl font-bold text-white">AI-Assisted Search & Recommendation Tool</h2>
+            <p class="text-cyan-400">Full-Stack Developer & UI Designer</p>
+          </div>
+        </div>
+        <div class="modal-hero mb-6">
+          <div class="carousel" data-carousel="project1-modal" style="height:200px;">
+            <div class="carousel-track">
+              <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20150412.png" alt="AI search 1"></div>
+              <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20174918.png" alt="AI search 2"></div>
+              <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20174943.png" alt="AI search 3"></div>
+              <div class="carousel-slide"><img src="assets/Screenshot%202026-02-17%20221550.png" alt="AI search 4"></div>
+            </div>
+            <button class="carousel-button left" aria-label="Previous">‹</button>
+            <button class="carousel-button right" aria-label="Next">›</button>
+            <div class="carousel-dots"></div>
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Timeline</p>
+            <p class="font-semibold">Jan 2025 – Present</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Client</p>
+            <p class="font-semibold">SingInk</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Type</p>
+            <p class="font-semibold">Web Development</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🎯 The Challenge</h3>
+            <p class="text-gray-300 leading-relaxed">
+              SingInk, a retail partner, faced high customer frustration with overwhelming product search results. Users struggled to find items within budget or check stock status efficiently, leading to poor user experience and lost sales opportunities.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">💡 The Solution</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Created an intelligent search experience that understands natural language queries, allowing users to filter by intent, budget, and stock status without complex navigation. Implemented AI-powered recommendations to surface relevant products instantly.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🛠️ My Role</h3>
+            <p class="text-gray-300 leading-relaxed">
+              As the sole developer, I was responsible for both front-end and back-end development. Designed the user interface in Figma, built the React frontend with responsive components, and developed the Flask backend with NLP integration for query understanding.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">🏆 Key Outcomes</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Reduced average search time by 60%
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Improved product discovery accuracy by 40%
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Enhanced user satisfaction scores from 3.2 to 4.5/5
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-white/10">
+          <span class="tag-pill">React</span>
+          <span class="tag-pill purple">Flask</span>
+          <span class="tag-pill">Python</span>
+          <span class="tag-pill purple">NLP</span>
+          <span class="tag-pill">REST API</span>
+          <span class="tag-pill purple">Figma</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="project2-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('project2')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <div class="p-8">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="text-5xl">📊</div>
+          <div>
+            <h2 class="font-orbitron text-2xl font-bold text-white">Analytics Dashboard</h2>
+            <p class="text-purple-400">Data Analyst & Dashboard Developer</p>
+          </div>
+        </div>
+        <div class="modal-hero mb-6">
+          <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1600&q=80" alt="Analytics dashboard banner">
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Timeline</p>
+            <p class="font-semibold">Oct 2024 – Dec 2024</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Client</p>
+            <p class="font-semibold">Academic Project</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Type</p>
+            <p class="font-semibold">Data Visualization</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🎯 The Challenge</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Stakeholders needed a centralized view of business metrics across multiple data sources. Manual reporting was time-consuming and prone to errors, leading to delayed decision-making.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">💡 The Solution</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Built an interactive Power BI dashboard with real-time data connections, custom visualizations, and drill-down capabilities. Implemented automated data refresh and alert systems for KPI monitoring.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🛠️ My Role</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Led the entire data pipeline from extraction to visualization. Wrote Python scripts for data cleaning, designed SQL queries for data aggregation, and created the interactive dashboard with custom DAX measures.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">🏆 Key Outcomes</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Reduced reporting time from 8 hours to 15 minutes
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Enabled data-driven decisions with real-time insights
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Created 15+ interactive visualizations
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-white/10">
+          <span class="tag-pill">Power BI</span>
+          <span class="tag-pill purple">Python</span>
+          <span class="tag-pill">SQL</span>
+          <span class="tag-pill purple">DAX</span>
+          <span class="tag-pill">Data Modeling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="project3-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('project3')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <div class="p-8">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="text-5xl">🏀</div>
+          <div>
+            <h2 class="font-orbitron text-2xl font-bold text-white">Basketball CCA Website</h2>
+            <p class="text-purple-400">UX Designer & Front-End Developer</p>
+          </div>
+        </div>
+        <div class="modal-hero mb-6">
+          <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1600&q=80" alt="Basketball CCA banner">
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Timeline</p>
+            <p class="font-semibold">Aug 2025 – Dec 2025</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Client</p>
+            <p class="font-semibold">NP Basketball Club</p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Type</p>
+            <p class="font-semibold">UX Design & Web Dev</p>
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🎯 The Challenge</h3>
+            <p class="text-gray-300 leading-relaxed">
+              The basketball club (100+ members) relied on manual sign-up sheets and WhatsApp for communication, causing missed registrations, confusion, and poor member experience. They needed a centralized platform for organization.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">💡 The Solution</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Created a mobile-first responsive website serving as a centralized hub for member registration, event scheduling, announcements, and photo gallery. Built with intuitive UX design principles to accommodate both students and administrators.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🛠️ My Role</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Handled end-to-end development from user research and wireframing to front-end coding and deployment. Conducted interviews with club members to understand pain points, created user personas in Figma, designed wireframes, and built the responsive interface using HTML5, CSS3, and JavaScript with backend integration for registration and automated email confirmations.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-purple-400 mb-3">🔍 Design Thinking Process</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Applied IBM UX Design fundamentals to understand user needs. Interviews revealed that 85% of members access via mobile, so I prioritized mobile-first design. Created detailed user personas and journey maps to guide interface decisions. Tested prototypes with 10+ club members and iterated based on feedback.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">⚡ Key Features Implemented</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Member registration system with automated email confirmations via SMTP
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Event scheduling with calendar integration and RSVP tracking
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Admin dashboard for announcements and member management
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Photo gallery showcasing team activities, tournaments, and training sessions
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Mobile-responsive design optimized for all devices
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 mt-1">▹</span>
+                Member directory with contact information
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 class="font-orbitron text-lg font-semibold text-cyan-400 mb-3">🏆 Key Outcomes</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Successfully deployed and serving 100+ active members
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Reduced registration time from manual sheets to instant online signup
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                Improved member engagement with centralized communication
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 mt-1">▹</span>
+                95% user satisfaction score in initial survey
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-white/10">
+          <span class="tag-pill">React</span>
+          <span class="tag-pill purple">HTML5/CSS3</span>
+          <span class="tag-pill">JavaScript</span>
+          <span class="tag-pill purple">UX Design</span>
+          <span class="tag-pill">Figma</span>
+          <span class="tag-pill purple">SMTP</span>
+          <span class="tag-pill">Responsive Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      hero_name: "RIHAN IQBAL",
+      hero_tagline: "IT Student | Aspiring Software Engineer | AI & UX Enthusiast",
+      hero_bio: "Building intuitive, AI-driven web applications that solve real user problems. Passionate about clean code, user-centric design, and emerging technologies.",
+      email_address: "252258W@mymail.nyp.edu.sg",
+      linkedin_url: "linkedin.com/in/rihan-iqbal-7699893aa",
+      background_color: "#0A1929",
+      surface_color: "#0D2137",
+      text_color: "#E8F4F8",
+      accent_cyan: "#00FFF5",
+      accent_purple: "#9D4EFF"
+    };
+    
+    let config = { ...defaultConfig };
+    
+    // Particle Animation
+    function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationId;
+      
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      window.addEventListener('resize', resize);
+      resize();
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.radius = Math.random() * 2 + 1;
+          this.color = Math.random() > 0.5 ? 'rgba(0, 255, 245, 0.5)' : 'rgba(157, 78, 255, 0.5)';
+        }
+        
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+      
+      function init() {
+        particles = [];
+        const numParticles = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+        for (let i = 0; i < numParticles; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      function connectParticles() {
+        const maxDistance = 150;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = (1 - distance / maxDistance) * 0.3;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(0, 255, 245, ${opacity})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+          particle.update();
+          particle.draw();
+        });
+        
+        connectParticles();
+        animationId = requestAnimationFrame(animate);
+      }
+      
+      init();
+      animate();
+    }
+    
+    // Modal Functions
+    function openModal(projectId) {
+      const modal = document.getElementById(`${projectId}-modal`);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    function closeModal(projectId) {
+      const modal = document.getElementById(`${projectId}-modal`);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    
+    // Close modal on outside click
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+          modal.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Form submission handler
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const successMsg = document.getElementById('form-success');
+      
+      // Show success message
+      successMsg.classList.remove('hidden');
+      form.reset();
+      
+      // Hide after 5 seconds
+      setTimeout(() => {
+        successMsg.classList.add('hidden');
+      }, 5000);
+    }
+    
+    // Intersection Observer for animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in-up');
+            entry.target.style.opacity = '1';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.skill-card, .project-card').forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+      });
+    }
+    
+    // Element SDK Integration
+    async function onConfigChange(cfg) {
+      config = { ...defaultConfig, ...cfg };
+      
+      // Update hero section
+      const heroName = document.getElementById('hero-name');
+      if (heroName) heroName.textContent = config.hero_name || defaultConfig.hero_name;
+      
+      const heroTagline = document.getElementById('hero-tagline');
+      if (heroTagline) heroTagline.textContent = config.hero_tagline || defaultConfig.hero_tagline;
+      
+      const heroBio = document.getElementById('hero-bio');
+      if (heroBio) heroBio.textContent = config.hero_bio || defaultConfig.hero_bio;
+      
+      // Update contact section
+      const contactEmail = document.getElementById('contact-email');
+      if (contactEmail) {
+        contactEmail.textContent = config.email_address || defaultConfig.email_address;
+        contactEmail.href = `mailto:${config.email_address || defaultConfig.email_address}`;
+      }
+      
+      const contactLinkedin = document.getElementById('contact-linkedin');
+      if (contactLinkedin) {
+        contactLinkedin.textContent = config.linkedin_url || defaultConfig.linkedin_url;
+        const linkedinUrl = config.linkedin_url || defaultConfig.linkedin_url;
+        contactLinkedin.href = linkedinUrl.startsWith('http') ? linkedinUrl : `https://${linkedinUrl}`;
+      }
+      
+      // Update colors
+      document.documentElement.style.setProperty('--bg-primary', config.background_color || defaultConfig.background_color);
+      document.documentElement.style.setProperty('--bg-secondary', config.surface_color || defaultConfig.surface_color);
+      document.documentElement.style.setProperty('--text-primary', config.text_color || defaultConfig.text_color);
+      document.documentElement.style.setProperty('--accent-cyan', config.accent_cyan || defaultConfig.accent_cyan);
+      document.documentElement.style.setProperty('--accent-purple', config.accent_purple || defaultConfig.accent_purple);
+    }
+    
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => {
+              cfg.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              cfg.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => {
+              cfg.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => cfg.accent_cyan || defaultConfig.accent_cyan,
+            set: (value) => {
+              cfg.accent_cyan = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_cyan: value });
+            }
+          },
+          {
+            get: () => cfg.accent_purple || defaultConfig.accent_purple,
+            set: (value) => {
+              cfg.accent_purple = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_purple: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+    
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ["hero_name", cfg.hero_name || defaultConfig.hero_name],
+        ["hero_tagline", cfg.hero_tagline || defaultConfig.hero_tagline],
+        ["hero_bio", cfg.hero_bio || defaultConfig.hero_bio],
+        ["email_address", cfg.email_address || defaultConfig.email_address],
+        ["linkedin_url", cfg.linkedin_url || defaultConfig.linkedin_url]
+      ]);
+    }
+
+     /* Carousel initialization
+       - Looks for elements with `data-carousel` and wires up next/prev and dots.
+       - Expects structure: .carousel > .carousel-track > .carousel-slide
+     */
+    function initCarousels() {
+      document.querySelectorAll('[data-carousel]').forEach(setupCarousel);
+    }
+
+    function setupCarousel(root) {
+      try {
+        const track = root.querySelector('.carousel-track');
+        const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+        if (!slides.length) return;
+
+        let index = 0;
+        const leftBtn = root.querySelector('.carousel-button.left');
+        const rightBtn = root.querySelector('.carousel-button.right');
+        const dotsContainer = root.querySelector('.carousel-dots');
+
+        function updateDots() {
+          if (!dotsContainer) return;
+          Array.from(dotsContainer.children).forEach((d, i) => d.classList.toggle('active', i === index));
+        }
+
+        function clamp(i) { return Math.max(0, Math.min(i, slides.length - 1)); }
+
+        function scrollToIndex(i) {
+          i = clamp(i);
+          index = i;
+          const targetSlide = slides[i];
+          if (!targetSlide) return;
+          const left = targetSlide.offsetLeft - (track.clientWidth - targetSlide.clientWidth) / 2;
+          track.scrollTo({ left, behavior: 'smooth' });
+          updateDots();
+        }
+
+        if (leftBtn) leftBtn.addEventListener('click', () => scrollToIndex(index - 1));
+        if (rightBtn) rightBtn.addEventListener('click', () => scrollToIndex(index + 1));
+
+        // build dots
+        if (dotsContainer) {
+          dotsContainer.innerHTML = '';
+          slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => scrollToIndex(i));
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        // update index on scroll end (calculate nearest slide by offset)
+        let scrollTimer = null;
+        track.addEventListener('scroll', () => {
+          if (scrollTimer) clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            const center = track.scrollLeft + track.clientWidth / 2;
+            let nearest = 0;
+            let nearestDist = Infinity;
+            slides.forEach((s, idx) => {
+              const sCenter = s.offsetLeft + s.clientWidth / 2;
+              const dist = Math.abs(sCenter - center);
+              if (dist < nearestDist) { nearestDist = dist; nearest = idx; }
+            });
+            if (nearest !== index) { index = nearest; updateDots(); }
+          }, 80);
+        });
+
+        window.addEventListener('resize', () => setTimeout(() => scrollToIndex(index), 80));
+
+        // initial position
+        updateDots();
+        scrollToIndex(0);
+      } catch (err) {
+        console.warn('carousel init failed', err);
+      }
+    }
+    
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Start animations
+    initParticles();
+    initScrollAnimations();
+    initCarousels();
+    
+    // Initial render
+    onConfigChange(config);
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cf52517f5280fe2',t:'MTc3MTMyOTg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
